@@ -6,7 +6,7 @@ int top;
 int n;
 public:
     Stack(){
-        cout<<"Enter the number of elements: ";
+        cout<<"Enter size of stack: ";
         cin>>n;
         arr= new int[n];
         top=-1;
@@ -32,39 +32,44 @@ int Stack :: pop(){
         cout<<"Stack underflow";
     }
     else{
-        return arr[top--];
+        cout<<"Popped item: "<<arr[top--]<<endl;
     }
 }
 void Stack::traverse(){
-    for(int i=top;i>-1;i--){
-        cout<<arr[i]<<endl;
+    if(top==-1){
+        cout<<"Stack underflow";
+    }
+    else{
+        for(int i=top;i>-1;i--){
+            cout<<"| "<<arr[i]<<" ";
+        }
+        cout<<"]\n";
     }
 }
 
 int main(){
     short int choice;
-    Stack *st=NULL;
+    Stack *st=new Stack();
     do
     {
-        cout<<"1.Create\n2.Push\n3.Pop\n4.Traverse\n";
+        cout<<"\n1.Push\n2.Pop\n3.Traverse\n4.Exit\n";
         cin>>choice;
         switch(choice){
         case 1:
-            st=new Stack();
-            break;
-        case 2:
             st->push();
             break;
-        case 3:
+        case 2:
             st->pop();
             break;
-        case 4:
-            (st)->traverse();
+        case 3:
+            st->traverse();
             break;
-        case 5:
+        case 4:
+            break;
         default:
             cout<<"Invalid input";
             break;
         }
-    }while(choice!=5);
+    }while(choice!=4);
+    return 0;
 }
