@@ -3,11 +3,9 @@ using namespace std;
 class Node{
 public:
     int data;
-    Node *prev;
     Node *next;
     Node(){
         data=0;
-        prev=NULL;
         next=NULL;
     }
 };
@@ -34,14 +32,21 @@ void LinkedList:: insertAtStart(){
         start=new Node();
         cout<<"Enter data:";
         cin>>start->data;
+        start->next=start;
     }
     else{
         Node *temp=start;
-        start=new Node();
+        while(temp->next!=start)
+            temp=temp->next;
+        cout<<temp->data<<" ";
+        cout<<temp->next->data<<" ";
+        temp->next=new Node();
+        temp->next->next=start;
+        start=temp->next;
+        cout<<start->data;
         cout<<"Enter data:";
         cin>>start->data;
-        start->next=temp;
-        temp->prev=start;
+        //start->next=temp;
     }
     size_of_list++;
     cout<<"Added node successfully.\n";
@@ -53,13 +58,13 @@ void LinkedList:: insertAtEnd(){
     }
     else{
         Node *n=start;
-        while(n->next!=NULL){
+        while(n->next!=start){
             n=n->next;
         }
         n->next=new Node();
         cout<<"Enter data:";
         cin>>n->next->data;
-        n->next->prev=n;
+        n->next->next=start;
         size_of_list++;
         cout<<"Added node successfully.\n";
     }
@@ -96,9 +101,7 @@ void LinkedList:: insertAtMid(){
             n->next=new Node();
             cout<<"Enter data:";
             cin>>n->next->data;
-            n->next->prev=n;
             n->next->next=temp;
-            temp->prev=n->next;
             size_of_list++;
             cout<<"Added node successfully.\n";
         }
@@ -113,10 +116,12 @@ void LinkedList:: delFromStart(){
         if(size_of_list!=1)
         {
             Node *temp=start->next;
+            while(temp->next!=start)
+                temp=temp->next;
+            temp->next=start->next;
             cout<<"Deleted: "<<start->data<<endl;
             delete start;
-            start=temp;
-            start->prev=NULL;
+            start=temp->next;
         }
         else
         {
@@ -136,11 +141,11 @@ void LinkedList:: delFromEnd(){
         if(size_of_list!=1)
         {
             Node *n=start;
-            while(n->next!=NULL){
+            while(n->next->next!=start){
                 n=n->next;
             }
-            Node *temp=n;
-            n->prev->next=NULL;
+            Node *temp=n->next;
+            n->next=start;
             cout<<"Deleted: "<<temp->data<<endl;
             delete temp;
         }
@@ -175,7 +180,6 @@ void LinkedList:: delFromMid(){
                     cout<<"Deleted: "<<start->data<<endl;
                     delete start;
                     start=temp;
-                    start->prev=NULL;
                 }
                 else
                 {
@@ -201,7 +205,6 @@ void LinkedList:: delFromMid(){
                 }
                 Node *temp=n->next;
                 n->next=temp->next;
-                temp->next->prev=n;
                 cout<<"Deleted: "<<temp->data<<endl;
                 delete temp;
             }
@@ -217,10 +220,11 @@ void LinkedList:: traverse(){
     else{
         Node *n=start;
         cout<<"[ ";
-        while(n!=NULL){
+        while(n->next!=start){
             if(n->next==NULL)
             {
-                cout<<n->data;
+                cout<<"pass";
+                //pass
             }
             else
             {
@@ -228,7 +232,8 @@ void LinkedList:: traverse(){
             }
             n=n->next;
         }
-        cout<<" ]"<<endl;
+        cout<<n->data<<" ]";
+        cout<<endl;
     }
 }
 int main(){
@@ -236,8 +241,8 @@ int main(){
     LinkedList *l1=new LinkedList();
     do
     {
-        cout<<"\n1.Insert at beginning\n2.Insert at end\n3.Insert at position\n4.Delete from beginning \
-        \n5.Delete from end\n6.Delete from position\n7.Traverse\n8.Exit\n";
+        cout<<"\n1.Insert at beginning\n2.Insert at end\n3.Delete from beginning \
+        \n4.Delete from end\n5.Traverse\n6.Exit\n";
         cin>>choice;
         switch(choice){
         case 1:
@@ -247,27 +252,64 @@ int main(){
             l1->insertAtEnd();
             break;
         case 3:
-            l1->insertAtMid();
-            break;
-        case 4:
             l1->delFromStart();
             break;
-        case 5:
+        case 4:
             l1->delFromEnd();
             break;
-        case 6:
-            l1->delFromMid();
-            break;
-        case 7:
+        case 5:
             l1->traverse();
             break;
-        case 8:
+        case 6:
             cout<<"Exiting\n";
             break;
         default:
             cout<<"Invalid input\n";
             break;
         }
-    }while(choice!=8);
+    }while(choice!=6);
     return 0;
 }
+
+/*
+//testing code
+int main(){
+
+
+LinkedList *l1=new LinkedList();
+
+l1->traverse();
+l1->insertAtMid();
+l1->delFromEnd();
+l1->delFromStart();
+l1->insertAtEnd();
+l1->traverse();
+l1->insertAtStart();
+l1->insertAtEnd();
+l1->insertAtEnd();
+l1->insertAtEnd();
+l1->insertAtEnd();
+l1->insertAtEnd();
+l1->insertAtEnd();
+l1->traverse();
+l1->insertAtStart();
+l1->traverse();
+l1->insertAtStart();
+l1->traverse();
+l1->insertAtStart();
+l1->traverse();
+l1->insertAtStart();
+l1->traverse();
+l1->insertAtEnd();
+l1->insertAtEnd();
+l1->traverse();
+l1->insertAtMid();
+l1->traverse();
+l1->insertAtMid();
+l1->traverse();
+l1->delFromMid();
+l1->traverse();
+return 0;
+}
+
+*/

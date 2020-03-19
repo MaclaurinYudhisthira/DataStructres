@@ -129,10 +129,11 @@ void LinkedList:: delFromEnd(){
         if(size_of_list!=1)
         {
             Node *n=start;
-            while(n->next!=NULL){
+            while(n->next->next!=NULL){
                 n=n->next;
             }
-            Node *temp=n;
+            Node *temp=n->next;
+            n->next=NULL;
             cout<<"Deleted: "<<temp->data<<endl;
             delete temp;
         }
@@ -226,8 +227,8 @@ int main(){
     LinkedList *l1=new LinkedList();
     do
     {
-        cout<<"\n1.Insert at beginning\n2.Insert at end\n3.Delete from beginning \
-        \n4.Delete from end\n5.Traverse\n6.Exit\n";
+        cout<<"\n1.Insert at beginning\n2.Insert at end\n3.Insert at position\n4.Delete from beginning \
+        \n5.Delete from end\n6.Delete from position\n7.Traverse\n8.Exit\n";
         cin>>choice;
         switch(choice){
         case 1:
@@ -237,48 +238,26 @@ int main(){
             l1->insertAtEnd();
             break;
         case 3:
-            l1->delFromStart();
+            l1->insertAtMid();
             break;
         case 4:
-            l1->delFromEnd();
+            l1->delFromStart();
             break;
         case 5:
-            l1->traverse();
+            l1->delFromEnd();
             break;
         case 6:
+            l1->delFromMid();
+        case 7:
+            l1->traverse();
+            break;
+        case 8:
             cout<<"Exiting\n";
             break;
         default:
             cout<<"Invalid input\n";
             break;
         }
-    }while(choice!=6);
+    }while(choice!=8);
+    return 0;
 }
-
-/*
-testing code
-int main(){
-
-
-LinkedList *l1=new LinkedList();
-
-l1->traverse();
-l1->insertAtMid();
-l1->delFromEnd();
-l1->delFromStart();
-l1->insertAtEnd();
-l1->insertAtStart();
-l1->insertAtStart();
-l1->insertAtStart();
-l1->insertAtEnd();
-l1->insertAtEnd();
-l1->traverse();
-l1->insertAtMid();
-l1->traverse();
-l1->insertAtMid();
-l1->traverse();
-l1->delFromMid();
-l1->traverse();
-}
-
-*/
